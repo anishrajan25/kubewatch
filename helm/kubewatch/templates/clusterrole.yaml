@@ -76,4 +76,12 @@ rules:
       - get
       - list
       - watch
+  - apiGroups:
+      - entity.sumologic.com
+    resources:
+      - entities
+    verbs:
+      - get
+      - list
+      - watch
 {{- end -}}

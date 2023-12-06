@@ -32,6 +32,7 @@ type Event struct {
 	Name       string
 	Obj        runtime.Object
 	OldObj     runtime.Object
+	Changes    string
 }
 
 var m = map[string]string{

@@ -71,6 +71,27 @@ type Resource struct {
 	HPA                   bool `json:"hpa"`
 	Event                 bool `json:"event"`
 	CoreEvent             bool `json:"coreevent"`
+
+	// Custom Resources to watch
+	Entity *CustomResource `yaml:"entity,omitempty"`
+}
+
+// CustomResource contains custom resource configuration
+type CustomResource struct {
+	// Watch specifies whether to watch the resource or not
+	Watch bool `json:"watch"`
+
+	// ResourceIdentifier of the referenced object.
+	ResourceIdentifier string `json:"resource_identifier"`
+
+	// Compare Fields is list of fields to be compared between old and new objects
+	CompareFields []*CompareField `json:"compare_fields"`
+}
+
+// CompareField contains the name and path of the field to be compared
+type CompareField struct {
+	Name string   `json:"name"`
+	Path []string `json:"path"`
 }
 
 // Config struct contains kubewatch configuration

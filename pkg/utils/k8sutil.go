@@ -2,17 +2,19 @@ package utils
 
 import (
 	"os"
+	"reflect"
 
 	"github.com/sirupsen/logrus"
 	apps_v1 "k8s.io/api/apps/v1"
 	batch_v1 "k8s.io/api/batch/v1"
 	api_v1 "k8s.io/api/core/v1"
+	events_v1 "k8s.io/api/events/v1"
 	ext_v1beta1 "k8s.io/api/extensions/v1beta1"
 	networking_v1 "k8s.io/api/networking/v1"
 	rbac_v1 "k8s.io/api/rbac/v1"
-	events_v1 "k8s.io/api/events/v1"
 	rbac_v1beta1 "k8s.io/api/rbac/v1beta1"
 	meta_v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
@@ -102,6 +104,24 @@ func GetObjectMetaData(obj interface{}) (objectMeta meta_v1.ObjectMeta) {
 		objectMeta = object.ObjectMeta
 	case *events_v1.Event:
 		objectMeta = object.ObjectMeta
+	case *unstructured.Unstructured:
+		objectMeta = meta_v1.ObjectMeta{
+			Name:                       object.GetName(),
+			Namespace:                  object.GetNamespace(),
+			UID:                        object.GetUID(),
+			ResourceVersion:            object.GetResourceVersion(),
+			Generation:                 object.GetGeneration(),
+			CreationTimestamp:          object.GetCreationTimestamp(),
+			DeletionTimestamp:          object.GetDeletionTimestamp(),
+			DeletionGracePeriodSeconds: object.GetDeletionGracePeriodSeconds(),
+			Labels:                     object.GetLabels(),
+			Annotations:                object.GetAnnotations(),
+			OwnerReferences:            object.GetOwnerReferences(),
+			Finalizers:                 object.GetFinalizers(),
+			ManagedFields:              object.GetManagedFields(),
+		}
+	default:
+		logrus.Errorln("Invalid Object type - %T ", reflect.TypeOf(obj))
 	}
 	return objectMeta
 }

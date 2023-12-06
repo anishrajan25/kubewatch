@@ -55,6 +55,7 @@ type Webhook struct {
 // WebhookMessage for messages
 type WebhookMessage struct {
 	EventMeta EventMeta `json:"eventmeta"`
+	Changes   string    `json:"changes"`
 	Text      string    `json:"text"`
 	Time      time.Time `json:"time"`
 }
@@ -132,8 +133,9 @@ func prepareWebhookMessage(e event.Event, m *Webhook) *WebhookMessage {
 			Namespace: e.Namespace,
 			Reason:    e.Reason,
 		},
-		Text: e.Message(),
-		Time: time.Now(),
+		Changes: e.Changes,
+		Text:    e.Message(),
+		Time:    time.Now(),
 	}
 }
 

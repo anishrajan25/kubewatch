@@ -13,9 +13,8 @@ handler:
   flock:
     url: ""
   webhook:
-    url: "https://localhost:443"
-    tlsskip: false
-    cert: "/root/tls/ca.crt"
+    enabled: true
+    url: "https://webhook.site/c72961f3-da92-4bcc-9c48-07d543b6a2e1"
 resource:
   deployment: false
   replicationcontroller: false
@@ -28,3 +27,13 @@ resource:
   namespace: true
   secret: false
   ingress: false
+  entity:
+    watch: true
+    resourceidentifier: "entities.v1.entity.sumologic.com" # This needs to be in the format - `resource.group.com` or `resource.version.group.com`
+    comparefields:
+      - name: "state"
+        path: [ "status", "state" ]
+      - name: "retryAttempts"
+        path: [ "status", "retryAttempts" ]
+      - name: "scheduledDay"
+        path: [ "spec", "scheduleWeekDay" ]
