@@ -29,7 +29,7 @@ resource:
   ingress: false
   entity:
     watch: true
-    resourceidentifier: "entities.v1.entity.sumologic.com" # This needs to be in the format - `resource.group.com` or `resource.version.group.com`
+    resourceidentifier: "entities.v1.entity.org.com" # This needs to be in the format - `resource.group.com` or `resource.version.group.com`
     comparefields:
       - name: "state"
         path: [ "status", "state" ]
