@@ -77,7 +77,7 @@ rules:
       - list
       - watch
   - apiGroups:
-      - entity.sumologic.com
+      - entity.org.com
     resources:
       - entities
     verbs:
